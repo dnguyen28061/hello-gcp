@@ -1,0 +1,26 @@
+steps:
+  # STEP 1: Use the Docker builder to package the code into an image.
+  # The $PROJECT_ID variable is automatically substituted by Cloud Build.
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/hello-world', '.']
+
+  # STEP 2: Push the image to the Container Registry (GCP's private Docker Hub).
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/hello-world']
+
+  # STEP 3: Deploy to Cloud Run.
+  # --allow-unauthenticated: Makes the URL public (standard for a website).
+  # --platform managed: Tells GCP to handle all underlying infrastructure.
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'hello-service'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/hello-world'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'

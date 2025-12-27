@@ -1,0 +1,15 @@
+swagger: "2.0"
+info:
+  title: Hello World API
+  version: "1.0.0"
+paths:
+  /:
+    get:
+      summary: Entry point for our website
+      operationId: hello
+      # The Gateway 'proxies' the request to your Cloud Run URL
+      x-google-backend:
+        address: https://hello-service-xyz.a.run.app 
+      responses:
+        200:
+          description: OK
