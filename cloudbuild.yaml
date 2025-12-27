@@ -24,6 +24,10 @@ steps:
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
+      - '--vpc-connector'
+      - 'my-redis-connector'
+      - '--set-env-vars'
+      - 'REDISHOST=10.87.91.27,GOOGLE_CLOUD_PROJECT=$PROJECT_ID'
 
 options:
   logging: CLOUD_LOGGING_ONLY
